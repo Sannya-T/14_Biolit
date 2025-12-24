@@ -18,6 +18,7 @@ def _species_colors(frame: pl.DataFrame) -> pl.DataFrame:
     return (
         frame["regne"]
         .unique()
+        .sort()
         .to_frame()
         .with_row_index("color")
         .with_columns(col("color").replace_strict(COLOR_MATCHING))
@@ -36,6 +37,8 @@ def plot_species_distribution(frame: pl.DataFrame, fn: Path):
     edges = _baseline_edges(species_counts)
     nodes = nodes_from_edges(edges)
     edges = enrich_edges(edges, nodes)
+    edges.write_parquet(DATADIR / "species_edges.parquet")
+    nodes.write_parquet(DATADIR / "species_node.parquet")
     save_sankey_plot(edges, nodes, fn)
 
 
@@ -46,6 +49,7 @@ def save_sankey_plot(edges: pl.DataFrame, nodes: pl.DataFrame, fn: Path) -> Path
         | {
             "line": dict(color="lightgrey", width=0.1),
             "hovertemplate": "<b>%{customdata.name}</b><br>"
+            "node_id: %{customdata.node_id}<br>"
             "# images: %{value}<br>"
             "# sub level: %{customdata.n_incoming}<br>"
             "# species: %{customdata.n_species}<br>"
@@ -61,7 +65,6 @@ def save_sankey_plot(edges: pl.DataFrame, nodes: pl.DataFrame, fn: Path) -> Path
         title_text="Répartition des images Biolit en selon les différentes strates de la hierarchie",
         font_size=10,
     )
-    # _fig.write_html(DATADIR / "distribution_images.html")
     _fig.write_html(fn)
 
 
@@ -91,6 +94,7 @@ def nodes_from_edges(edges: pl.DataFrame) -> pl.DataFrame:
         .sort()
         .to_frame()
         .with_row_index("id")
+        .with_columns(col("id") - 1)
         .join(has_labels, left_on="source", right_on="target")
         .with_columns(
             pl.when(col("has_label")).then(col("source")).alias("label"),
@@ -102,6 +106,7 @@ def nodes_from_edges(edges: pl.DataFrame) -> pl.DataFrame:
                 name=col("source"),
                 n_incoming=col("n_incoming"),
                 n_species=col("n_species"),
+                node_id=col("id"),
             ).alias("customdata"),
         )
     )
@@ -124,11 +129,11 @@ def _node_has_labels(edges: pl.DataFrame) -> pl.DataFrame:
 
 def enrich_edges(edges: pl.DataFrame, nodes: pl.DataFrame) -> pl.DataFrame:
     _sub_nodes = nodes.select("id", "source")
-    edges = (
+    return (
         edges.select("source", "target", "value", "color")
         .join(_sub_nodes, left_on="source", right_on="source")
         .join(_sub_nodes, left_on="target", right_on="source")
         .drop("target", "source")
         .rename({"id": "source", "id_right": "target"})
+        .sort("source", "target")
     )
-    return edges
