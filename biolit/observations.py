@@ -1,3 +1,5 @@
+import itertools
+
 import polars as pl
 import structlog
 from polars import col
@@ -108,3 +110,39 @@ def _check_validated_non_identifiable(frame: pl.DataFrame) -> pl.DataFrame:
     with pl.Config(fmt_str_lengths=50):
         print(errors)
     return frame.filter(~filt)
+
+
+def learnable_taxonomy(
+    frame: pl.DataFrame, current_taxon: str, levels: list[str], n_learnable: int
+) -> dict:
+    """
+    Liste les niveau taxonomiques les plus bas predictibles.
+    """
+    next_level = levels[0] if levels else "nom_scientifique"
+    level_agg = frame.group_by(next_level).agg(col("n_obs").sum())
+    learnables = level_agg.filter(col("n_obs") >= n_learnable)[next_level].to_list()
+
+    unlearnable = level_agg.filter(col("n_obs") < n_learnable)
+    remaining_taxon = []
+    if not unlearnable.is_empty():
+        autre_keyword = (
+            "AUTRE -- " if unlearnable["n_obs"].sum() >= n_learnable else "NO_STATS -- "
+        )
+        remaining_taxon.append(autre_keyword + current_taxon)
+
+    if not levels:
+        return learnables + remaining_taxon
+
+    next_frame = frame.group_by(levels + ["nom_scientifique"]).agg(col("n_obs").sum())
+
+    learnable_sublevels = [
+        learnable_taxonomy(
+            next_frame.filter(col(next_level) == taxon),
+            taxon,
+            levels[1:],
+            n_learnable=n_learnable,
+        )
+        or [taxon]
+        for taxon in learnables
+    ] + [remaining_taxon]
+    return sorted(set(itertools.chain(*learnable_sublevels)))
