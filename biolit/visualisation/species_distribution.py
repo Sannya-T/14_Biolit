@@ -83,7 +83,7 @@ def _baseline_edges(species_counts: pl.DataFrame) -> pl.DataFrame:
             .rename({_source: "source", _target: "target", "id": "value"})
         )
         _edges.append(tmp)
-    return pl.concat(_edges)
+    return pl.concat(_edges).filter(col("source") != col("target"))
 
 
 def nodes_from_edges(edges: pl.DataFrame) -> pl.DataFrame:
