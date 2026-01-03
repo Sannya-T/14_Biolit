@@ -14,7 +14,6 @@ class TestParseInaturalist:
         ) as f:
             content = json.load(f)
         out = parse_inaturalist_api(content)
-        print(out)
         exp = pl.DataFrame(
             {
                 "inat_obs_id": [333150395, 333062785],
@@ -32,5 +31,4 @@ class TestParseInaturalist:
                 "inat_image_id": [604784329, 604591769],
             }
         ).cast({"created_at": pl.Datetime})
-        print(exp)
         assert_frame_equal(out, exp)
