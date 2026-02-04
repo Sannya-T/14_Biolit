@@ -4,10 +4,18 @@ import polars as pl
 import structlog
 from polars import col
 
-from biolit import DATADIR
-from biolit.taxref import TAXREF_HIERARCHY
+from biolit import DATADIR, EXPORTDIR
+from biolit.taxref import TAXREF_HIERARCHY, format_taxref
+from biolit.visualisation.species_distribution import plot_species_distribution
 
 LOGGER = structlog.get_logger()
+
+
+def export_observations():
+    format_taxref()
+    format_observations()
+    biolit_df = pl.read_parquet(DATADIR / "biolit_valid_observations.parquet")
+    plot_species_distribution(biolit_df, fn=EXPORTDIR / "distribution_images.html")
 
 
 def format_observations():
