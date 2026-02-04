@@ -67,26 +67,25 @@ source .venv/bin/activate
 
 ## Enrichissement des données
 
-Placez votre CSV dans `data/raw/observations.csv`, puis :
+Cette pipeline a pour but de télécharger l'ensemble des images biolit et de les enrichir pour créer une base dédiées au machine learning ou à la data visualisation.
 
+Pour lancer la pipeline :
+- Télécharger sur le site TaxRef le fichier `TAXREF_v18_2025` et le décompresser dans le dossier `data/`.
+- Télécharger le fichier excel d'export test et le placer dans `data/export_biolit.csv`.
+- Lancer la pipeline suivante
 ```bash
-uv run pipelines/run.py ingest-csv --input-path data/raw/observations.csv
+uv run pipelines/export_inpn.py
 ```
 
-Résultat : `data/export_biolit.csv` (utilisé par `biolit.observations`).
+La pipeline propose différents logs pour alerter sur des problèmes de qualité.
 
-### 2) Export INPN + dataviz
+La pipeline crée plusieurs fichier:
 
-```bash
-uv run pipelines/run.py export-inpn
-```
-
-Sorties principales :
-- `data/biolit_valid_observations.parquet`
-- `data/observations_missing_taxref.csv`
-- `data/biolit_observation_missing_nom.csv`
+- `data/biolit_valid_observations.parquet` : fichier final avec l'ensemble des images annotées et enrichies.
+- `data/observations_missing_taxref.csv` : fichier des images dont l'expèce n'est pas présente dans TaxRef.
+- `data/biolit_observation_missing_nom.csv` : observations validées mais sans nom d'espèce.
 - `data/biolit_observation_validated_non_identifiable.csv`
-- `data/distribution_images.html`
+- `data/distribution_images.html` : Visualisation de la répartition des images en fonction des espèces.
 
 ## Label Studio (annotation)
 
