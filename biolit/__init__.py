@@ -4,6 +4,8 @@ import matplotlib as mpl
 
 ROOTDIR = Path(__file__).parent / ".."
 DATADIR = ROOTDIR / "data"
+RAWDIR = DATADIR / "raw"
+EXPORTDIR = DATADIR / "exports"
 
 
 mpl.rcParams["axes.spines.right"] = False

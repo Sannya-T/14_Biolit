@@ -22,8 +22,7 @@ Les pipelines existants d'export sont conservés et intégrés.
 
 ```
 biolit/                # Lib Python (taxref, observations, dataviz)
-cmd/                   # Script export existant (export INPN)
-pipelines/             # Orchestration (ingestion CSV + export)
+pipelines/             # Orchestration
 ml/                    # Dossiers des 3 tâches ML
 dataviz/               # Docs dataviz
 infra/                 # Docker Compose (Label Studio)
@@ -66,9 +65,7 @@ source .venv/bin/activate
 5. **Export CSV** : `data/exports/annotations.csv`
 6. **Dataviz** : `data/dataviz/observations.csv` (Metabase)
 
-## Pipelines (CSV → export + dataviz)
-
-### 1) Ingestion CSV
+## Enrichissement des données
 
 Placez votre CSV dans `data/raw/observations.csv`, puis :
 
