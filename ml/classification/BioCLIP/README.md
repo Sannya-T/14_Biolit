@@ -85,16 +85,17 @@ models/
 └── prototypes_v3.pt
 
 results/
-└── predictions_sample_test.csv  
+└── predictions_sample_test.csv
 
-README.md
 scripts/
 └── inference/
     └── infer_local_v3.py   # Inférence hybride v3 (CPU/GPU)
+
+README.md
 ```
 
 ---
 
 ## Espèces couvertes
 
-Les 100 espèces correspondent aux espèces les plus observées dans la base BioLit au moment de l'entraînement (février 2026). La liste complète est disponible dans [`scripts/inference/infer_local_v3.py`](scripts/inference/infer_local_v3.py) (dictionnaire `SPECIES_DESCRIPTIONS`).
+Les 100 espèces correspondent aux espèces les plus observées dans la base BioLit au moment de l'entraînement (février 2026). La liste complète est disponible dans [`scripts/infer_local_v3.py`](scripts/infer_local_v3.py) (dictionnaire `SPECIES_DESCRIPTIONS`).
