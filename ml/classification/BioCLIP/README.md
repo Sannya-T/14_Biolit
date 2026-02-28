@@ -9,6 +9,8 @@
 
 Le système repose sur [BioCLIP](https://huggingface.co/imageomics/bioclip), un modèle CLIP entraîné sur 10 millions d'images d'organismes vivants (TreeOfLife-10M). BioCLIP est utilisé comme **feature extractor gelé** (vecteurs 512d) — seule la tête de classification est adaptée aux données BioLit.
 
+Les données BioLit ont été enrichies via l'API GBIF pour récupérer la hiérarchie taxonomique complète (règne, embranchement, classe, ordre, famille, genre) de chaque espèce, utilisée notamment pour construire les descriptions textuelles des prototypes Proto-CLIP (fichier export_biolit_enriched.csv).
+
 L'architecture finale est un **système hybride à deux composantes** :
 
 - Un **classifier MLP** entraîné sur les 50 espèces les plus représentées (>50 images)
@@ -86,6 +88,7 @@ models/
 
 results/
 └── predictions_sample_test.csv
+└── export_biolit_enriched.csv
 
 scripts/
 └── inference/
