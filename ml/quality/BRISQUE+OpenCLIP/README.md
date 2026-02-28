@@ -234,12 +234,6 @@ Voir `requirements.txt` pour la liste complète et les versions.
 - **Dataset BioLit** : Qualité globalement bonne (0.4% aberrations BRISQUE seulement)
 - **Prompts** : En anglais (limitation modèle OpenCLIP)
 
-## Améliorations Futures
-
-1. **Court terme** : Ajuster seuils selon retours utilisateurs terrain
-2. **Moyen terme** : Tester modèles spécialisés biodiversité (iNaturalist, EMODnet)
-3. **Long terme** : Annoter 2,000-3,000 images supplémentaires classe minoritaire pour rendre viable le fine-tuning
-
 ## Notes d'Implémentation
 
 ### Gestion des Annotations Humaines
