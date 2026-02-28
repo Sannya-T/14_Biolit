@@ -40,8 +40,8 @@ Le taux de rejet (12%) correspond aux images sous le seuil de confiance minimal 
 
 Télécharger les modèles pré-entrainés
 
-| Fichier | Description | Lien |
-|---|---|---|
+| Fichier | Description |
+|---|---|
 | `best_model_top50.pth` | Classifier MLP — 50 espèces communes 
 | `prototypes_v3.pt` | Prototypes Proto-CLIP — 100 espèces 
 
@@ -80,6 +80,14 @@ python scripts/inference/infer_local_v3.py \
 ## Structure des fichiers ajoutés
 
 ```
+models/
+├── best_model_top50.pth
+└── prototypes_v3.pt
+
+results/
+└── predictions_sample_test.csv  
+
+README.md
 scripts/
 └── inference/
     └── infer_local_v3.py   # Inférence hybride v3 (CPU/GPU)
