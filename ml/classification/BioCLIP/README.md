@@ -1,6 +1,6 @@
 # 🌊 Identification automatique des espèces — Système hybride BioCLIP + enrichissement taxonomique GBIF
 
-**84.1% accuracy · 100 espèces · 88% de couverture**
+**84.1% accuracy · Top 100 espèces · 88% de couverture**
 
 ---
 
