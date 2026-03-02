@@ -83,7 +83,7 @@ python scripts/infer_local_v4.py \
 
 ```
 models/
-├── best_model_top50.pth          # Classifier MLP (inchangé)
+├── best_model_top50.pth          # Classifier MLP 
 └── prototypes_v4.pt              # Prototypes + whitening transform
 └── README.md
 
