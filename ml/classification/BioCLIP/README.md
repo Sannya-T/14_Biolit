@@ -23,7 +23,7 @@ Cette approche résout le déséquilibre fort des données BioLit : le classifie
 - Prototypes pondérés par similarité : [arXiv:2110.11553](https://arxiv.org/abs/2110.11553)
 - Température apprise par descente de gradient : [arXiv:2108.00340](https://arxiv.org/abs/2108.00340)
 - Proto-CLIP (fusion visuel + textuel) : [arXiv:2307.03073](https://arxiv.org/abs/2307.03073)
-- Whitening + PCA sur features BioCLIP : Wu et al. ECCV2020 / [arXiv:2004.01399](https://arxiv.org/abs/2004.01399)
+- Whitening + PCA sur features BioCLIP : Wu et al. ECCV2020 
 
 ---
 
